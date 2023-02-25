@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "501423829218",
+    "project_id": "amex-health",
+    "storage_bucket": "amex-health.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:501423829218:android:2f068744d8e1514d9aaebb",
+        "android_client_info": {
+          "package_name": "com.example.amex_health_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "501423829218-tl5afj8hllj8sou7itnuebqbukq200j6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwsrd2UTs3bBv_C47sDT_K82n05QfWSzQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "501423829218-tl5afj8hllj8sou7itnuebqbukq200j6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

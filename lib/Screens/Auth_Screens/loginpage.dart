@@ -1,11 +1,11 @@
-import 'package:amex_health_app/Screens/home_page.dart';
-//import 'package:amex_health_app/Screens/signup_page.dart';
+import 'package:amex_health_app/components/my_button.dart';
+import 'package:amex_health_app/components/square_tile.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({
-    Key? key,
-  }) : super(key: key);
+  final Function()? onTap;
+  const LoginPage({Key? key, this.onTap}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -22,6 +22,66 @@ class _LoginPageState extends State<LoginPage> {
       _isHidden = !_isHidden;
     });
   }
+
+  void signUserIn() async {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
+      },
+    );
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailcontroller.text.trim(),
+        password: _passwordcontroller.text.trim(),
+      );
+      Navigator.pop(context);
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      showErrorMessage(e.code);
+      // if (e.code == 'user-not-found') {
+      //   wrongEmailMessage();
+      // } else if (e.code == 'wrong-password') {
+      //   wrongPasswordMessage();
+      // }
+    }
+
+    //Navigator.pop(context);
+  }
+
+  void showErrorMessage(String message) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: const Color(0xFF257A84),
+          title: Center(
+            child: Text(
+              message,
+              style: const TextStyle(color: Colors.white, fontSize: 16),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  // void wrongPasswordMessage() {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) {
+  //       return const AlertDialog(
+  //         backgroundColor: Color(0xFF257A84),
+  //         title: Text(
+  //           'Incorrect Password',
+  //           style: TextStyle(color: Colors.white, fontSize: 16),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 
   @override
   void dispose() {
@@ -178,26 +238,71 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 50,
                 ),
-                ElevatedButton(
-                  onPressed: () async {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => const HomePage()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: const Size(320, 52),
-                      elevation: 10.0,
-                      shape: const StadiumBorder(),
-                      padding: const EdgeInsets.all(20),
-                      backgroundColor: const Color(0xFF257A84),
-                      textStyle: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xFFFFFFFF))),
-                  child: const Text('Login'),
+                MyButton(
+                  onTap: signUserIn,
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                        child: Text(
+                          'Or continue with',
+                          style: TextStyle(color: Colors.grey.shade700),
+                        ),
+                      ),
+                      Expanded(
+                        child: Divider(
+                          thickness: 0.5,
+                          color: Colors.grey.shade400,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SquareTile(imagePath: 'assets/images/googlelogo.png'),
+                    SizedBox(
+                      width: 30,
+                    ),
+                    SquareTile(imagePath: 'assets/images/facebooklogo.png'),
+                  ],
+                ),
+                // ElevatedButton(
+                //   onPressed: () async {
+                //     Navigator.of(context).pushReplacement(
+                //       MaterialPageRoute(builder: (context) => const HomePage()),
+                //     );
+                //   },
+                //   style: ElevatedButton.styleFrom(
+                //       fixedSize: const Size(320, 52),
+                //       elevation: 10.0,
+                //       shape: const StadiumBorder(),
+                //       padding: const EdgeInsets.all(20),
+                //       backgroundColor: const Color(0xFF257A84),
+                //       textStyle: const TextStyle(
+                //           fontSize: 16,
+                //           fontWeight: FontWeight.w400,
+                //           color: Color(0xFFFFFFFF))),
+                //   child: const Text('Login'),
+                // ),
+                const SizedBox(
+                  height: 40,
                 ),
                 const Center(
                   child: Text(
@@ -214,7 +319,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 GestureDetector(
-                  //onTap: ,
+                  onTap: widget.onTap,
                   child: const Center(
                     child: Text(
                       "Sign up",

@@ -1,4 +1,5 @@
-import 'package:amex_health_app/Screens/loginpage.dart';
+import 'package:amex_health_app/Screens/Auth_Screens/auth_page.dart';
+import 'package:amex_health_app/Screens/Auth_Screens/loginpage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -38,7 +39,7 @@ class MyApp extends StatelessWidget {
         initialRoute:
     initScreen == 0 || initScreen == null ? 'onboard' : 'home',
     routes: {
-      'home': (context) => const LoginPage(),
+      'home': (context) => const AuthPage(),
       'onboard': (context) => const OnBoardScreen(),
     });
   }

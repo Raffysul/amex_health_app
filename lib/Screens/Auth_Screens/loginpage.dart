@@ -1,17 +1,21 @@
 import 'package:amex_health_app/components/my_button.dart';
 import 'package:amex_health_app/components/square_tile.dart';
+import 'package:amex_health_app/services/auth_service.dart';
+import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
+
   final Function()? onTap;
-  const LoginPage({Key? key, this.onTap}) : super(key: key);
+  const LoginPage({Key? key, required this.onTap}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //final formKey = GlobalKey<FormState>();
   bool? _checkBox = false;
   bool _isHidden = true;
   final _emailcontroller = TextEditingController();
@@ -23,7 +27,14 @@ class _LoginPageState extends State<LoginPage> {
     });
   }
 
-  void signUserIn() async {
+  @override
+  void initState() {
+    super.initState();
+
+    _emailcontroller.addListener(onListen);
+  }
+
+  Future signUserIn() async {
     showDialog(
       context: context,
       builder: (context) {
@@ -37,7 +48,7 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailcontroller.text.trim(),
         password: _passwordcontroller.text.trim(),
       );
-      Navigator.pop(context);
+      //Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       showErrorMessage(e.code);
@@ -68,51 +79,42 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  // void wrongPasswordMessage() {
-  //   showDialog(
-  //     context: context,
-  //     builder: (context) {
-  //       return const AlertDialog(
-  //         backgroundColor: Color(0xFF257A84),
-  //         title: Text(
-  //           'Incorrect Password',
-  //           style: TextStyle(color: Colors.white, fontSize: 16),
-  //         ),
-  //       );
-  //     },
-  //   );
-  // }
-
   @override
   void dispose() {
     _emailcontroller.dispose();
     _passwordcontroller.dispose();
+    _emailcontroller.removeListener(onListen);
     super.dispose();
   }
+
+  void onListen() => setState(() {});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFFFFFFF),
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Center(
+      body: Center(
+        child: SingleChildScrollView(
+          child: SafeArea(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                const SizedBox(
-                  height: 30,
-                ),
-                Center(
-                  child: Image.asset(
-                    'assets/images/amexhealthlogo.png',
-                    alignment: Alignment.center,
-                    height: 100,
+                // const SizedBox(
+                //   height: 20,
+                // ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 60),
+                  child: Center(
+                    child: Image.asset(
+                      'assets/images/amexlogo.png',
+                      fit: BoxFit.cover,
+                      height: 40,
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 30,
                 ),
                 const Center(
                   child: Text(
@@ -141,26 +143,38 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 17),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextFormField(
                     controller: _emailcontroller,
                     keyboardType: TextInputType.emailAddress,
+                    autofillHints: const [AutofillHints.email],
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (email) =>
+                        email != null && !EmailValidator.validate(email)
+                            ? 'Enter a valid email'
+                            : null,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
                         prefixIcon: const Icon(
                           Icons.mail,
                           color: Colors.black45,
                         ),
+                        suffixIcon: _emailcontroller.text.isEmpty
+                            ? Container(width: 0)
+                            : IconButton(
+                                onPressed: () => _emailcontroller.clear(),
+                                icon: const Icon(Icons.close)),
+                        //hintText: 'Email',
                         labelText: 'Email',
                         labelStyle: const TextStyle(
                           color: Color(0xFF257A84),
                         ),
                         enabledBorder: OutlineInputBorder(
                             borderSide: const BorderSide(
-                              width: 3,
+                              width: 2,
                               color: Color(0xFF257A84),
                             ),
                             borderRadius: BorderRadius.circular(15.0))),
@@ -170,10 +184,14 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 17),
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: TextFormField(
                     controller: _passwordcontroller,
                     textInputAction: TextInputAction.done,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (value) => value != null && value.length < 6
+                        ? 'Enter min. of 6 characters'
+                        : null,
                     obscureText: _isHidden,
                     decoration: InputDecoration(
                       prefixIcon: const Icon(
@@ -186,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              width: 3, color: Color(0xFF257A84)),
+                              width: 2, color: Color(0xFF257A84)),
                           borderRadius: BorderRadius.circular(15.0)),
                       suffix: InkWell(
                         onTap: _togglePasswordView,
@@ -239,10 +257,11 @@ class _LoginPageState extends State<LoginPage> {
                   height: 50,
                 ),
                 MyButton(
+                  text: "Login",
                   onTap: signUserIn,
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
@@ -271,16 +290,20 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 40,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    SquareTile(imagePath: 'assets/images/googlelogo.png'),
-                    SizedBox(
+                  children: [
+                    SquareTile(
+                      onTap: () => AuthService().signInWithGoogle(),
+                        imagePath: 'assets/images/googlelogo.png'),
+                    const SizedBox(
                       width: 30,
                     ),
-                    SquareTile(imagePath: 'assets/images/facebooklogo.png'),
+                    SquareTile(
+                      onTap: () {},
+                        imagePath: 'assets/images/facebooklogo.png'),
                   ],
                 ),
                 // ElevatedButton(
@@ -302,7 +325,7 @@ class _LoginPageState extends State<LoginPage> {
                 //   child: const Text('Login'),
                 // ),
                 const SizedBox(
-                  height: 40,
+                  height: 25,
                 ),
                 const Center(
                   child: Text(

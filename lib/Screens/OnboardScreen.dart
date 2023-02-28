@@ -1,8 +1,10 @@
+import 'package:amex_health_app/Screens/Auth_Screens/login_or_register_page.dart';
 import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
 import 'Auth_Screens/loginpage.dart';
+import 'Auth_Screens/signup_page.dart';
 
 class OnBoardScreen extends StatefulWidget {
   const OnBoardScreen({Key? key}) : super(key: key);
@@ -32,7 +34,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
               padding: const EdgeInsets.only(top: 60),
               child: Center(
                 child: Image.asset(
-                  'assets/images/amexhealthlogo.png',
+                  'assets/images/amexlogo.png',
                   fit: BoxFit.cover,
                   height: 40,
                 ),
@@ -137,7 +139,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
               ),
               onPressed: () async {
                 Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => const LoginPage()),
+                  MaterialPageRoute(builder: (context) => const LoginOrRegisterPage()),
                 );
               },
               child: const Text(

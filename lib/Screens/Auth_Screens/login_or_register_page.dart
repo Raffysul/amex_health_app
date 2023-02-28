@@ -26,7 +26,9 @@ class _LoginOrRegisterPageState extends State<LoginOrRegisterPage> {
         onTap: togglePages,
       );
     }else {
-      return const SignUpPage();
+      return SignUpPage(
+        onTap: togglePages,
+      );
     }
   }
 }

@@ -11,18 +11,21 @@ class HomePage extends StatelessWidget {
     final user = FirebaseAuth.instance.currentUser!;
 
     return Scaffold(
-        backgroundColor: Colors.green.shade100,
+        backgroundColor: Colors.white,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Center(
-                child: Text(
-                  'Signed in as : ${user.email!}',
-                  style: const TextStyle(
-                      fontSize: 16,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: Text(
+                    'Signed in as : ${user.email!}',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
               // Text(
@@ -34,10 +37,10 @@ class HomePage extends StatelessWidget {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(320, 52),
+                    fixedSize: const Size(250, 50),
                     elevation: 10.0,
                     shape: const StadiumBorder(),
                     backgroundColor: const Color(0xFF257A84),
@@ -47,6 +50,7 @@ class HomePage extends StatelessWidget {
                   label: const Center(
                     child: Text(
                       'Proceed to Dashboard',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,
@@ -77,10 +81,10 @@ class HomePage extends StatelessWidget {
                 height: 20,
               ),
               Padding(
-                padding: const EdgeInsets.all(15.0),
+                padding: const EdgeInsets.only(left: 15, right: 15),
                 child: ElevatedButton.icon(
                   style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(200, 50),
+                    fixedSize: const Size(150, 45),
                     elevation: 10.0,
                     shape: const StadiumBorder(),
                     backgroundColor: const Color(0xFF257A84),
@@ -90,6 +94,7 @@ class HomePage extends StatelessWidget {
                   label: const Center(
                     child: Text(
                       'Log Out',
+                      textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w400,

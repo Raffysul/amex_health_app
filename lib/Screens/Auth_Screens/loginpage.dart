@@ -1,12 +1,10 @@
 import 'package:amex_health_app/components/my_button.dart';
-import 'package:amex_health_app/components/square_tile.dart';
-import 'package:amex_health_app/services/auth_service.dart';
+//import 'package:amex_health_app/services/auth_service.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginPage extends StatefulWidget {
-
   final Function()? onTap;
   const LoginPage({Key? key, required this.onTap}) : super(key: key);
 
@@ -37,9 +35,12 @@ class _LoginPageState extends State<LoginPage> {
   Future signUserIn() async {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return const Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: Color(0xFF257A84),
+          ),
         );
       },
     );
@@ -48,15 +49,20 @@ class _LoginPageState extends State<LoginPage> {
         email: _emailcontroller.text.trim(),
         password: _passwordcontroller.text.trim(),
       );
-      //Navigator.pop(context);
+      if (!mounted) return;
+      Navigator.pop(context);
+      //Navigator.of(context).pop();
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       Navigator.pop(context);
       showErrorMessage(e.code);
+
       // if (e.code == 'user-not-found') {
       //   wrongEmailMessage();
       // } else if (e.code == 'wrong-password') {
       //   wrongPasswordMessage();
       // }
+      // navigatorKey.currentState!.popUntil((route) => route.isFirst);
     }
 
     //Navigator.pop(context);
@@ -67,6 +73,7 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          elevation: 4,
           backgroundColor: const Color(0xFF257A84),
           title: Center(
             child: Text(
@@ -104,7 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                 //   height: 20,
                 // ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 60),
+                  padding: const EdgeInsets.only(top: 50),
                   child: Center(
                     child: Image.asset(
                       'assets/images/amexlogo.png',
@@ -143,10 +150,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 50,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: TextFormField(
                     controller: _emailcontroller,
                     keyboardType: TextInputType.emailAddress,
@@ -158,33 +165,53 @@ class _LoginPageState extends State<LoginPage> {
                             : null,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.mail,
-                          color: Colors.black45,
-                        ),
-                        suffixIcon: _emailcontroller.text.isEmpty
-                            ? Container(width: 0)
-                            : IconButton(
-                                onPressed: () => _emailcontroller.clear(),
-                                icon: const Icon(Icons.close)),
-                        //hintText: 'Email',
-                        labelText: 'Email',
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF257A84),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 2,
-                              color: Color(0xFF257A84),
-                            ),
-                            borderRadius: BorderRadius.circular(15.0))),
+                      prefixIcon: const Icon(
+                        Icons.mail,
+                        color: Colors.black45,
+                      ),
+                      suffixIcon: _emailcontroller.text.isEmpty
+                          ? Container(width: 0)
+                          : IconButton(
+                              onPressed: () => _emailcontroller.clear(),
+                              icon: const Icon(Icons.close)),
+                      hintText: 'Example@gmail.com',
+                      hintStyle: const TextStyle(fontStyle: FontStyle.italic),
+                      labelText: 'Email',
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF257A84),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 20,
+                  height: 30,
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: TextFormField(
                     controller: _passwordcontroller,
                     textInputAction: TextInputAction.done,
@@ -198,14 +225,36 @@ class _LoginPageState extends State<LoginPage> {
                         Icons.lock,
                         color: Colors.black45,
                       ),
+                      hintText: '*********',
+                      hintStyle: const TextStyle(fontStyle: FontStyle.italic),
                       labelText: 'Password',
                       labelStyle: const TextStyle(
                         color: Color(0xFF257A84),
                       ),
                       enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              width: 2, color: Color(0xFF257A84)),
-                          borderRadius: BorderRadius.circular(15.0)),
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
                       suffix: InkWell(
                         onTap: _togglePasswordView,
                         child: Icon(
@@ -263,49 +312,49 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                        child: Text(
-                          'Or continue with',
-                          style: TextStyle(color: Colors.grey.shade700),
-                        ),
-                      ),
-                      Expanded(
-                        child: Divider(
-                          thickness: 0.5,
-                          color: Colors.grey.shade400,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SquareTile(
-                      onTap: () => AuthService().signInWithGoogle(),
-                        imagePath: 'assets/images/googlelogo.png'),
-                    const SizedBox(
-                      width: 30,
-                    ),
-                    SquareTile(
-                      onTap: () {},
-                        imagePath: 'assets/images/facebooklogo.png'),
-                  ],
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                //   child: Row(
+                //     children: [
+                //       Expanded(
+                //         child: Divider(
+                //           thickness: 0.5,
+                //           color: Colors.grey.shade400,
+                //         ),
+                //       ),
+                //       Padding(
+                //         padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                //         child: Text(
+                //           'Or continue with',
+                //           style: TextStyle(color: Colors.grey.shade700),
+                //         ),
+                //       ),
+                //       Expanded(
+                //         child: Divider(
+                //           thickness: 0.5,
+                //           color: Colors.grey.shade400,
+                //         ),
+                //       ),
+                //     ],
+                //   ),
+                // ),
+                // const SizedBox(
+                //   height: 40,
+                // ),
+                // Row(
+                //   mainAxisAlignment: MainAxisAlignment.center,
+                //   children: [
+                //     SquareTile(
+                //       onTap: () => AuthService().signInWithGoogle(),
+                //         imagePath: 'assets/images/googlelogo.png'),
+                //     const SizedBox(
+                //       width: 30,
+                //     ),
+                //     SquareTile(
+                //       onTap: () {},
+                //         imagePath: 'assets/images/facebooklogo.png'),
+                //   ],
+                // ),
                 // ElevatedButton(
                 //   onPressed: () async {
                 //     Navigator.of(context).pushReplacement(
@@ -324,15 +373,15 @@ class _LoginPageState extends State<LoginPage> {
                 //           color: Color(0xFFFFFFFF))),
                 //   child: const Text('Login'),
                 // ),
-                const SizedBox(
-                  height: 25,
-                ),
+                // const SizedBox(
+                //   height: 25,
+                // ),
                 const Center(
                   child: Text(
                     "Don't have an account yet?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF4C4C4C),
                     ),
@@ -348,13 +397,14 @@ class _LoginPageState extends State<LoginPage> {
                       "Sign up",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w400,
                         color: Color(0xFF257A84),
                       ),
                     ),
                   ),
                 ),
+                const SizedBox(height: 40,),
               ],
             ),
           ),

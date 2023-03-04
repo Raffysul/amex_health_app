@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:liquid_swipe/liquid_swipe.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 //import 'package:shared_preferences/shared_preferences.dart';
-import 'Auth_Screens/loginpage.dart';
-import 'Auth_Screens/signup_page.dart';
+//import 'Auth_Screens/loginpage.dart';
+//import 'Auth_Screens/signup_page.dart';
 
 class OnBoardScreen extends StatefulWidget {
   const OnBoardScreen({Key? key}) : super(key: key);
@@ -173,7 +173,7 @@ class _OnBoardScreenState extends State<OnBoardScreen> {
                     child: AnimatedSmoothIndicator(
                       activeIndex: _controller.currentPage,
                       count: 4,
-                      effect: const WormEffect(
+                      effect: const ExpandingDotsEffect(
                         spacing: 16,
                         dotColor: Colors.black26,
                         activeDotColor: Color(0xFF257A84),

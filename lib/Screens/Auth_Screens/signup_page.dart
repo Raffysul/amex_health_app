@@ -1,5 +1,5 @@
 import 'package:amex_health_app/components/my_button.dart';
-import 'package:amex_health_app/components/square_tile.dart';
+//import 'package:amex_health_app/components/square_tile.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,30 +32,36 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   void initState() {
     super.initState();
-
     _emailcontroller.addListener(onListen);
+    _namecontroller.addListener(onListen);
   }
 
-  Future  signUserUp() async {
+  Future signUserUp() async {
     showDialog(
       context: context,
       builder: (context) {
         return const Center(
-          child: CircularProgressIndicator(),
+          child: CircularProgressIndicator(
+            color: Color(0xFF257A84),
+          ),
         );
       },
     );
     try {
-      if (_passwordcontroller.text == _confirmpasswordcontroller.text){
+      if (_passwordcontroller.text == _confirmpasswordcontroller.text) {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
-            email: _emailcontroller.text.trim(),
-            password: _passwordcontroller.text.trim(),);
+          email: _emailcontroller.text.trim(),
+          password: _passwordcontroller.text.trim(),
+        );
+        if (!mounted) return;
+        Navigator.pop(context);
       } else {
         showErrorMessage("Passwords don't match");
       }
 
       //Navigator.pop(context);
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       Navigator.pop(context);
       showErrorMessage(e.code);
     }
@@ -66,6 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
+          elevation: 4,
           backgroundColor: const Color(0xFF257A84),
           title: Center(
             child: Text(
@@ -85,6 +92,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _namecontroller.dispose();
     _confirmpasswordcontroller.dispose();
     _emailcontroller.removeListener(onListen);
+    _namecontroller.removeListener(onListen);
     super.dispose();
   }
 
@@ -105,7 +113,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 //   height: 30,
                 // ),
                 Padding(
-                  padding: const EdgeInsets.only(top: 60),
+                  padding: const EdgeInsets.only(top: 50),
                   child: Center(
                     child: Image.asset(
                       'assets/images/amexlogo.png',
@@ -144,10 +152,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 20,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: TextFormField(
                     controller: _namecontroller,
                     keyboardType: TextInputType.name,
@@ -155,34 +163,54 @@ class _SignUpPageState extends State<SignUpPage> {
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.person,
-                          color: Colors.black45,
-                        ),
-                        suffixIcon: _namecontroller.text.isEmpty
-                            ? Container(width: 0)
-                            : IconButton(
-                                onPressed: () => _namecontroller.clear(),
-                                icon: const Icon(Icons.close)),
-                        hintText: 'Type your Full Name',
-                        hintStyle: const TextStyle(color: Color(0xFF4C4C4C)),
-                        labelText: 'Name',
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF257A84),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 2,
-                              color: Color(0xFF257A84),
-                            ),
-                            borderRadius: BorderRadius.circular(15.0))),
+                      prefixIcon: const Icon(
+                        Icons.person,
+                        color: Colors.black45,
+                      ),
+                      suffixIcon: _namecontroller.text.isEmpty
+                          ? Container(width: 0)
+                          : IconButton(
+                              onPressed: () => _namecontroller.clear(),
+                              icon: const Icon(Icons.close)),
+                      hintText: 'Type your Full Name',
+                      hintStyle: const TextStyle(
+                          fontStyle: FontStyle.italic),
+                      labelText: 'Name',
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF257A84),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: TextFormField(
                     controller: _emailcontroller,
                     keyboardType: TextInputType.emailAddress,
@@ -194,33 +222,53 @@ class _SignUpPageState extends State<SignUpPage> {
                             : null,
                     textInputAction: TextInputAction.next,
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.mail,
-                          color: Colors.black45,
-                        ),
-                        suffixIcon: _emailcontroller.text.isEmpty
-                            ? Container(width: 0)
-                            : IconButton(
-                                onPressed: () => _emailcontroller.clear(),
-                                icon: const Icon(Icons.close)),
-                        //hintText: 'Email',
-                        labelText: 'Email',
-                        labelStyle: const TextStyle(
-                          color: Color(0xFF257A84),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              width: 2,
-                              color: Color(0xFF257A84),
-                            ),
-                            borderRadius: BorderRadius.circular(15.0))),
+                      prefixIcon: const Icon(
+                        Icons.mail,
+                        color: Colors.black45,
+                      ),
+                      suffixIcon: _emailcontroller.text.isEmpty
+                          ? Container(width: 0)
+                          : IconButton(
+                              onPressed: () => _emailcontroller.clear(),
+                              icon: const Icon(Icons.close)),
+                      hintText: 'Example@gmail.com',
+                      hintStyle: const TextStyle(fontStyle: FontStyle.italic),
+                      labelText: 'Email',
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF257A84),
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                    ),
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: TextFormField(
                     controller: _passwordcontroller,
                     textInputAction: TextInputAction.next,
@@ -234,14 +282,36 @@ class _SignUpPageState extends State<SignUpPage> {
                         Icons.lock,
                         color: Colors.black45,
                       ),
+                      hintText: 'Add password',
+                      hintStyle: const TextStyle(fontStyle: FontStyle.italic),
                       labelText: 'Password',
                       labelStyle: const TextStyle(
                         color: Color(0xFF257A84),
                       ),
                       enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              width: 2, color: Color(0xFF257A84)),
-                          borderRadius: BorderRadius.circular(15.0)),
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
                       suffix: InkWell(
                         onTap: _togglePasswordView,
                         child: Icon(
@@ -252,10 +322,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(12.0),
+                  padding: const EdgeInsets.only(left: 15, right: 15),
                   child: TextFormField(
                     controller: _confirmpasswordcontroller,
                     textInputAction: TextInputAction.done,
@@ -269,14 +339,36 @@ class _SignUpPageState extends State<SignUpPage> {
                         Icons.lock,
                         color: Colors.black45,
                       ),
+                      hintText: 'Retype password',
+                      hintStyle: const TextStyle(fontStyle: FontStyle.italic),
                       labelText: 'Confirm Password',
                       labelStyle: const TextStyle(
                         color: Color(0xFF257A84),
                       ),
                       enabledBorder: OutlineInputBorder(
                           borderSide: const BorderSide(
-                              width: 2, color: Color(0xFF257A84)),
-                          borderRadius: BorderRadius.circular(15.0)),
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide: const BorderSide(
+                            width: 1.5,
+                            color: Color(0xFF257A84),
+                          ),
+                          borderRadius: BorderRadius.circular(15)),
                       suffix: InkWell(
                         onTap: _togglePasswordView,
                         child: Icon(
@@ -361,20 +453,35 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 40,
+                  height: 20,
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SquareTile(
+                    GestureDetector(
                         onTap: () => AuthService().signInWithGoogle(),
-                        imagePath: 'assets/images/googlelogo.png'),
+                        child: Image.asset(
+                          'assets/images/googlelogo.png',
+                          height: 50,
+                          width: 50,
+                        )),
+                    // SquareTile(
+                    //     onTap: () => AuthService().signInWithGoogle(),
+                    //     imagePath: 'assets/images/googlelogo.png'),
                     const SizedBox(
-                      width: 30,
+                      width: 40,
                     ),
-                    SquareTile(
-                        onTap: () {},
-                        imagePath: 'assets/images/facebooklogo.png'),
+                    // SquareTile(
+                    //     onTap: () {},
+                    //     imagePath: 'assets/images/facebooklogo.png'),
+                    GestureDetector(
+                      //onTap: () => AuthService().signInWithGoogle(),
+                      child: Image.asset(
+                        'assets/images/facebooklogo.png',
+                        height: 70,
+                        width: 70,
+                      ),
+                    ),
                   ],
                 ),
                 // ElevatedButton(
@@ -403,7 +510,7 @@ class _SignUpPageState extends State<SignUpPage> {
                     "Already have an account?",
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 12,
+                      fontSize: 14,
                       fontWeight: FontWeight.w500,
                       color: Color(0xFF4C4C4C),
                     ),
@@ -419,13 +526,14 @@ class _SignUpPageState extends State<SignUpPage> {
                       "Login",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w400,
                         color: Color(0xFF257A84),
                       ),
                     ),
                   ),
                 ),
+                const SizedBox(height: 30,),
               ],
             ),
           ),

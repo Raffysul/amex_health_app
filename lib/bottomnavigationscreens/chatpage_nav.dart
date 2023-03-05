@@ -45,10 +45,10 @@ class _ChatScreenState extends State<ChatScreen> {
                 },
                 style: ElevatedButton.styleFrom(
                   alignment: Alignment.center,
-                    fixedSize: const Size(150, 45),
+                    fixedSize: const Size(150, 50),
                     elevation: 10.0,
                     shape: const StadiumBorder(),
-                    padding: const EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(8),
                     backgroundColor: const Color(0xFF257A84),
                     textStyle: const TextStyle(
                         fontSize: 16,

@@ -270,7 +270,7 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
                       Checkbox(
                         value: _checkBox,
@@ -282,6 +282,7 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         },
                       ),
+                      const SizedBox(width: 7,),
                       const Text(
                         'Remind me ',
                         style: TextStyle(

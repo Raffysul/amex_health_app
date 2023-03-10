@@ -1,5 +1,8 @@
+import 'package:amex_health_app/bottomnavigationscreens/booktest_nav.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+
+import '../Screens/homescreen.dart';
 
 class HistoryScreen extends StatefulWidget {
   const HistoryScreen({Key? key}) : super(key: key);
@@ -13,6 +16,19 @@ class _HistoryScreenState extends State<HistoryScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                  builder: (context) => const HomeScreen()),
+            );
+          },
+          child: const Icon(
+            Icons.arrow_back,
+            color: Color(0xFF257A84),
+            size: 25,
+          ),
+        ),
         title: const Text(
           'Test History',
           style: TextStyle(
@@ -61,7 +77,12 @@ class _HistoryScreenState extends State<HistoryScreen> {
                     fontWeight: FontWeight.w500,
                     color: Color(0xFF257A84),
                   ),
-                  recognizer: TapGestureRecognizer()..onTap = () {},
+                  recognizer: TapGestureRecognizer()..onTap = () {
+                    Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(
+                          builder: (context) => const TestScreen()),
+                    );
+                  },
                   children: const [
                     TextSpan(
                       text: 'to book a test.',

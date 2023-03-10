@@ -1,4 +1,7 @@
+import 'package:amex_health_app/bottomnavigationscreens/homepage_nav.dart';
 import 'package:flutter/material.dart';
+
+import '../Screens/homescreen.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({Key? key}) : super(key: key);
@@ -29,6 +32,23 @@ class _ChatScreenState extends State<ChatScreen> {
           ),
         ),
         child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            leading: GestureDetector(
+              onTap: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                      builder: (context) => const HomeScreen()),
+                );
+              },
+              child: const Icon(
+                Icons.arrow_back,
+                color: Color(0xFF257A84),
+                size: 25,
+              ),
+            ),
+          ),
           backgroundColor: Colors.transparent,
           body: Column(
             mainAxisAlignment: MainAxisAlignment.center,

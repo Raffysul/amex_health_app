@@ -72,7 +72,7 @@ class _SignUpPageState extends State<SignUpPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          elevation: 4,
+          elevation: 6,
           backgroundColor: const Color(0xFF257A84),
           title: Center(
             child: Text(
@@ -125,20 +125,6 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                // const Center(
-                //   child: Text(
-                //     'Welcome!',
-                //     textAlign: TextAlign.center,
-                //     style: TextStyle(
-                //       fontSize: 20,
-                //       fontWeight: FontWeight.w600,
-                //       color: Color(0xFF4C4C4C),
-                //     ),
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 10,
-                // ),
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20),
                   child: Text(
@@ -154,8 +140,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextFormField(
                     controller: _namecontroller,
                     keyboardType: TextInputType.name,
@@ -207,10 +193,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextFormField(
                     controller: _emailcontroller,
                     keyboardType: TextInputType.emailAddress,
@@ -265,10 +251,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextFormField(
                     controller: _passwordcontroller,
                     textInputAction: TextInputAction.next,
@@ -322,10 +308,10 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 15,
+                  height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextFormField(
                     controller: _confirmpasswordcontroller,
                     textInputAction: TextInputAction.done,

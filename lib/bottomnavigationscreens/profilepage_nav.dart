@@ -1,4 +1,11 @@
+import 'package:amex_health_app/bottomnavigationscreens/homepage_nav.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+
+import '../Screens/homescreen.dart';
+import 'historypage_nav.dart';
+
+//import '../Screens/home_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -12,7 +19,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(
+        appBar:  AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                    builder: (context) => const HomeScreen()),
+              );
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: Color(0xFF257A84),
+              size: 25,
+            ),
+          ),
           title: const Text(
             'Profile',
             style: TextStyle(
@@ -22,8 +44,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
           centerTitle: true,
-          backgroundColor: Colors.transparent,
-          elevation: 0,
         ),
         backgroundColor: const Color(0xFFEFF5F6),
         body: SingleChildScrollView(
@@ -109,35 +129,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Icon(
-                              Icons.history,
-                              color: Color(0xFF257A84),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('History'),
-                            Spacer(),
-                            Icon(Icons.arrow_forward_ios),
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const HistoryScreen()),
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Icon(
+                                Icons.history,
+                                color: Color(0xFF257A84),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('History'),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios),
+                            ],
+                          ),
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Icon(
-                              Icons.location_on_outlined,
-                              color: Color(0xFF257A84),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Address'),
-                            Spacer(),
-                            Icon(Icons.arrow_forward_ios),
-                          ],
+                        GestureDetector(
+                          onTap: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Icon(
+                                Icons.location_on_outlined,
+                                color: Color(0xFF257A84),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('Address'),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios),
+                            ],
+                          ),
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
@@ -214,18 +245,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             Icon(Icons.arrow_forward_ios),
                           ],
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Icon(
-                              Icons.logout,
-                              color: Color(0xFF257A84),
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Text('Log Out'),
-                          ],
+                        GestureDetector(
+                          onTap: () {
+                            FirebaseAuth.instance.signOut();
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: const [
+                              Icon(
+                                Icons.logout,
+                                color: Color(0xFF257A84),
+                              ),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text('Log Out'),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -233,7 +269,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
               const SizedBox(
-                height: 30,
+                height: 50,
               ),
             ],
           ),

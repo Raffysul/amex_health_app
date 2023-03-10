@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'Auth_Screens/login_or_register_page.dart';
 import 'homescreen.dart';
 
 class HomePage extends StatelessWidget {
@@ -9,8 +10,24 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser!;
-
     return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(
+                    builder: (context) => const LoginOrRegisterPage()),
+              );
+            },
+            child: const Icon(
+              Icons.arrow_back,
+              color: Color(0xFF257A84),
+              size: 25,
+            ),
+          ),
+        ),
         backgroundColor: Colors.white,
         body: Center(
           child: Column(

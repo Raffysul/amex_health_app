@@ -1,3 +1,4 @@
+import 'package:amex_health_app/Screens/Auth_Screens/reset_password.dart';
 import 'package:amex_health_app/components/my_button.dart';
 //import 'package:amex_health_app/services/auth_service.dart';
 import 'package:email_validator/email_validator.dart';
@@ -73,7 +74,7 @@ class _LoginPageState extends State<LoginPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          elevation: 4,
+          elevation: 6,
           backgroundColor: const Color(0xFF257A84),
           title: Center(
             child: Text(
@@ -150,10 +151,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 40,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal:10),
                   child: TextFormField(
                     controller: _emailcontroller,
                     keyboardType: TextInputType.emailAddress,
@@ -208,10 +209,10 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                 ),
                 const SizedBox(
-                  height: 30,
+                  height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 15, right: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: TextFormField(
                     controller: _passwordcontroller,
                     textInputAction: TextInputAction.done,
@@ -267,8 +268,8 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 10,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -282,7 +283,9 @@ class _LoginPageState extends State<LoginPage> {
                           });
                         },
                       ),
-                      const SizedBox(width: 7,),
+                      const SizedBox(
+                        width: 3,
+                      ),
                       const Text(
                         'Remind me ',
                         style: TextStyle(
@@ -292,12 +295,20 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ),
                       const Spacer(),
-                      const Text(
-                        'Forgot Password?',
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: Color(0xFF4C4C4C),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(
+                                builder: (context) => const ForgotPassword()),
+                          );
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Color(0xFF4C4C4C),
+                          ),
                         ),
                       )
                     ],
@@ -313,70 +324,6 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 30,
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                //   child: Row(
-                //     children: [
-                //       Expanded(
-                //         child: Divider(
-                //           thickness: 0.5,
-                //           color: Colors.grey.shade400,
-                //         ),
-                //       ),
-                //       Padding(
-                //         padding: const EdgeInsets.symmetric(horizontal: 12.0),
-                //         child: Text(
-                //           'Or continue with',
-                //           style: TextStyle(color: Colors.grey.shade700),
-                //         ),
-                //       ),
-                //       Expanded(
-                //         child: Divider(
-                //           thickness: 0.5,
-                //           color: Colors.grey.shade400,
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // const SizedBox(
-                //   height: 40,
-                // ),
-                // Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     SquareTile(
-                //       onTap: () => AuthService().signInWithGoogle(),
-                //         imagePath: 'assets/images/googlelogo.png'),
-                //     const SizedBox(
-                //       width: 30,
-                //     ),
-                //     SquareTile(
-                //       onTap: () {},
-                //         imagePath: 'assets/images/facebooklogo.png'),
-                //   ],
-                // ),
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     Navigator.of(context).pushReplacement(
-                //       MaterialPageRoute(builder: (context) => const HomePage()),
-                //     );
-                //   },
-                //   style: ElevatedButton.styleFrom(
-                //       fixedSize: const Size(320, 52),
-                //       elevation: 10.0,
-                //       shape: const StadiumBorder(),
-                //       padding: const EdgeInsets.all(20),
-                //       backgroundColor: const Color(0xFF257A84),
-                //       textStyle: const TextStyle(
-                //           fontSize: 16,
-                //           fontWeight: FontWeight.w400,
-                //           color: Color(0xFFFFFFFF))),
-                //   child: const Text('Login'),
-                // ),
-                // const SizedBox(
-                //   height: 25,
-                // ),
                 const Center(
                   child: Text(
                     "Don't have an account yet?",
@@ -405,7 +352,9 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 40,),
+                const SizedBox(
+                  height: 40,
+                ),
               ],
             ),
           ),
